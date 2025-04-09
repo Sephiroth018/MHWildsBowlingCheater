@@ -2,6 +2,7 @@
 ---@field private value? any
 ---@field private lazyFunction fun(): any
 local Lazy = {}
+Lazy.__index = Lazy
 
 ---@param lazyFunction fun(): any
 ---@return Lazy
