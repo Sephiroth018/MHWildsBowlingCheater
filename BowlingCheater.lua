@@ -1,11 +1,12 @@
 local SettingsManager = require("BowlingCheater.SettingsManager")
+local Lazy = require("BowlingCheater.Lazy")
 
-local SessionService = sdk.get_managed_singleton("app.NetworkManager"):get_SessionService()
+local LazySessionService = Lazy.new(function() return sdk.get_managed_singleton("app.NetworkManager"):get_SessionService() end)
 
 ---@param retval any
 ---@return any
 local function modifyPinValue(retval)
-  if SettingsManager.getCurrent().enabled and SessionService:getCurrentSession() == 0 then
+  if SettingsManager.getCurrent().enabled and LazySessionService:getValue():getCurrentSession() == 0 then
     return sdk.to_ptr(sdk.to_int64(retval) * SettingsManager.getCurrent().modifier)
   else
     return retval
